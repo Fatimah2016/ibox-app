@@ -32,6 +32,20 @@ public class IntegrationTest {
 	public WatchDir watchdir;
 	GoogleDriveFileSyncManager GoogleDriveFSM;
 	
+	boolean Passes = false;
+	public boolean GetFilesFromDrive(String Filename) throws IOException
+	{
+		List call = googleDriveClient.files().list();
+		FileList files = call.execute();
+		for(com.google.api.services.drive.model.File file : files.getItems())
+		{
+			if(Filename.equals(file.getTitle()));
+			{
+				Passes = true;
+			}
+		}
+		return Passes;
+	}
 	// prepares to make authorized API calls by using the service account's credentials to request an access token from the OAuth 2.0 auth server.
 	
 	@Before
@@ -54,7 +68,7 @@ public class IntegrationTest {
 	       }
 		GoogleDriveFSM = new GoogleDriveFileSyncManager(drive);
 		orginalPath = System.getProperty("user.dir");
-		File Test = new File("TestDir");
+		File Test = new File("NewFile");
 		if(!Test.exists())
 		{
 			Test.mkdir();
@@ -175,18 +189,5 @@ public class IntegrationTest {
 		}
 		return Name;
 	}
-	boolean Passes = false;
-	public boolean GetFilesFromDrive(String Filename) throws IOException
-	{
-		List call = googleDriveClient.files().list();
-		FileList files = call.execute();
-		for(com.google.api.services.drive.model.File file : files.getItems())
-		{
-			if(Filename.equals(file.getTitle()));
-			{
-				Passes = true;
-			}
-		}
-		return Passes;
-	}
+	
 }
