@@ -46,6 +46,22 @@ public class IntegrationTest {
 		}
 		return Passes;
 	}
+	public String GetFileName(File localFile) throws IOException
+	{
+		String Name= "";
+		
+		List Call = googleDriveClient.files().list();
+		FileList files = Call.execute();
+		for(com.google.api.services.drive.model.File file : files.getItems())
+		{
+			
+			if(file.getTitle().equals(localFile.getName()));
+			{
+				Name = file.getTitle();
+			}
+		}
+		return Name;
+	}
 	// prepares to make authorized API calls by using the service account's credentials to request an access token from the OAuth 2.0 auth server.
 	
 	@Before
@@ -168,26 +184,6 @@ public class IntegrationTest {
 		    }
 		  }
 		};thread2.start();
-	}
-	
-	
-	
-
-	public String GetFileName(File localFile) throws IOException
-	{
-		String Name= "";
-		
-		List Call = googleDriveClient.files().list();
-		FileList files = Call.execute();
-		for(com.google.api.services.drive.model.File file : files.getItems())
-		{
-			
-			if(file.getTitle().equals(localFile.getName()));
-			{
-				Name = file.getTitle();
-			}
-		}
-		return Name;
 	}
 	
 }
